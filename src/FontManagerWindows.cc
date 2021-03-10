@@ -142,7 +142,7 @@ FontDescriptor *resultFromFont(IDWriteFont *font) {
 
       char *psName = utf16ToUtf8(name);
       char *postscriptName = getString(font, DWRITE_INFORMATIONAL_STRING_POSTSCRIPT_NAME);
-      char *family = getString(font, DWRITE_INFORMATIONAL_STRING_TYPOGRAPHIC_FAMILY_NAMES, true, L"en-us");
+      char *family = getString(font, DWRITE_INFORMATIONAL_STRING_WIN32_FAMILY_NAMES, true, L"en-us");
       char *localizedName = getString(font, DWRITE_INFORMATIONAL_STRING_WIN32_FAMILY_NAMES);
       char *style = getString(font, DWRITE_INFORMATIONAL_STRING_WIN32_SUBFAMILY_NAMES);
 
