@@ -142,7 +142,7 @@ FontDescriptor *resultFromFont(IDWriteFont *font) {
 
       char *psName = utf16ToUtf8(name);
       char *postscriptName = getString(font, DWRITE_INFORMATIONAL_STRING_POSTSCRIPT_NAME);
-      char *family = getString(font, DWRITE_INFORMATIONAL_STRING_WIN32_FAMILY_NAMES, true, L"en-us");
+      char *family = removeFontFamilyStyle(getString(font, DWRITE_INFORMATIONAL_STRING_WIN32_FAMILY_NAMES, true, L"en-us"));
       char *localizedName = getString(font, DWRITE_INFORMATIONAL_STRING_WIN32_FAMILY_NAMES);
       char *style = getString(font, DWRITE_INFORMATIONAL_STRING_WIN32_SUBFAMILY_NAMES);
 
@@ -178,6 +178,25 @@ FontDescriptor *resultFromFont(IDWriteFont *font) {
   files->Release();
 
   return res;
+}
+
+char* removeFontFamilyStyle(char* family)
+{
+  std::string familyStr = std::string(family);
+  strReplace(familyStr, " Heavy", "");
+
+  char* result = new char[str.size() + 1];
+  std::strcpy(result, familyStr.c_str());
+  return result;
+}
+
+void strReplace(std::string& str, const std::string& from, const std::string& to) 
+{
+  std::string::size_type pos = 0;
+  while(pos = str.find(from, pos), pos != std::string::npos) {
+    str.replace(pos, from.length(), to);
+    pos += to.length();
+  }
 }
 
 ResultSet *getAvailableFonts() {
