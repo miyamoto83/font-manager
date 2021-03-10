@@ -66,7 +66,7 @@ unsigned int getLocaleIndexByName(IDWriteLocalizedStrings *strings, wchar_t* loc
 }
 
 // gets a localized string for a font
-char *getString(IDWriteFont *font, DWRITE_INFORMATIONAL_STRING_ID string_id, bool isLanguageSpecified = false) {
+char *getString(IDWriteFont *font, DWRITE_INFORMATIONAL_STRING_ID string_id, bool isLanguageSpecified = false, wchar_t* localName = L"ja-jp") {
   char *res = NULL;
   IDWriteLocalizedStrings *strings = NULL;
 
@@ -80,7 +80,7 @@ char *getString(IDWriteFont *font, DWRITE_INFORMATIONAL_STRING_ID string_id, boo
   if (exists) {
     unsigned int index = 0;
     if(isLanguageSpecified) {
-      index = getLocaleIndexByName(strings, L"ja-jp");
+      index = getLocaleIndexByName(strings, localName);
     } else {
       index = getLocaleIndex(strings);
     }
@@ -142,8 +142,7 @@ FontDescriptor *resultFromFont(IDWriteFont *font) {
 
       char *psName = utf16ToUtf8(name);
       char *postscriptName = getString(font, DWRITE_INFORMATIONAL_STRING_POSTSCRIPT_NAME);
-      //char *family = getString(font, DWRITE_INFORMATIONAL_STRING_WIN32_FAMILY_NAMES);
-      char *family = getString(font, DWRITE_INFORMATIONAL_STRING_FULL_NAME);
+      char *family = getString(font, DWRITE_INFORMATIONAL_STRING_WIN32_FAMILY_NAMES, true, L"en-us");
       char *localizedName = getString(font, DWRITE_INFORMATIONAL_STRING_WIN32_FAMILY_NAMES);
       char *style = getString(font, DWRITE_INFORMATIONAL_STRING_WIN32_SUBFAMILY_NAMES);
 
